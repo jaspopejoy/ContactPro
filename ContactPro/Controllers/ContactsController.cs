@@ -54,7 +54,7 @@ namespace ContactPro.Controllers
                                        //takes the first match
                                        .FirstOrDefault(u => u.Id == appUserId);
 
-            var categories = appUser.Categories;
+            var categories = appUser?.Categories;
 
             if (categoryId == 0)
             {
@@ -64,11 +64,13 @@ namespace ContactPro.Controllers
             }
             else
             {
+                // Dereference of a possibly null reference.
                 contacts = appUser.Categories.FirstOrDefault(c => c.Id == categoryId)
                                   .Contacts
-                                  .OrderBy(contacts=> contacts.LastName)
+                                  .OrderBy(contacts => contacts.LastName)
                                   .ThenBy(c => c.FirstName)
                                   .ToList();
+                // Dereference of a possibly null reference.
 
             }
 
@@ -76,6 +78,36 @@ namespace ContactPro.Controllers
             ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", categoryId);
 
             return View(contacts);
+        }
+
+        [Authorize]
+        public IActionResult SearchContacts(string searchString)
+        {
+            string? appUserId = _userManager.GetUserId(User);
+            var contacts = new List<Contact>();
+
+            AppUser appUser = _context.Users
+                .Include(c => c.Contacts)
+                .ThenInclude(c => c.Categories)
+                .FirstOrDefault(u => u.Id == appUserId)!;
+            if (string.IsNullOrEmpty(searchString))
+            {
+                contacts = appUser.Contacts
+                    .OrderBy(c => c.LastName)
+                    .ThenBy(c => c.FirstName)
+                    .ToList();
+            }
+            else
+            {
+                contacts = appUser.Contacts.Where(c => c.FullName!.ToLower().Contains(searchString.ToLower()))
+               .OrderBy(c => c.LastName)
+               .ThenBy(c => c.FirstName)
+               .ToList();
+            }
+
+            ViewData["CategoryId"] = new SelectList(appUser.Categories, "Id", "Name", 0);
+
+            return View(nameof(Index), contacts);
         }
 
         // GET: Contacts/Details/5

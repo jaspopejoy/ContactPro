@@ -65,7 +65,7 @@ namespace ContactPro.Models
 
         //virtuals
         public virtual AppUser? AppUser { get; set; }
-        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
+        public virtual ICollection<Categories> Categories { get; set; } = new HashSet<Categories>();
         
     }
 }
