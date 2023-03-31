@@ -22,7 +22,7 @@ namespace ContactPro.Controllers
         private readonly IImageService _imageService;
         private readonly IAddressBookService _addressBookService;
 
-        public ContactsController(ApplicationDbContext context, 
+        public ContactsController(ApplicationDbContext context,
                                 UserManager<AppUser> userManager,
                                 IImageService imageService,
                                 IAddressBookService addressBookService)
@@ -37,7 +37,7 @@ namespace ContactPro.Controllers
         [Authorize]
         public IActionResult Index(int categoryId)
         {
-            
+
             List<Contact> contacts = new List<Contact>();
             string? appUserId = _userManager.GetUserId(User);
 
@@ -56,9 +56,22 @@ namespace ContactPro.Controllers
 
             var categories = appUser.Categories;
 
-            contacts = appUser!.Contacts.OrderBy(c => c.LastName)
-                                       .ThenBy(c => c.FirstName)
-                                       .ToList();
+            if (categoryId == 0)
+            {
+                contacts = appUser!.Contacts.OrderBy(c => c.LastName)
+                           .ThenBy(c => c.FirstName)
+                           .ToList();
+            }
+            else
+            {
+                contacts = appUser.Categories.FirstOrDefault(c => c.Id == categoryId);
+                                  .Contacts
+                                  .OrderBy(contacts=> contacts.LastName)
+                                  .ThenBy(c => c.FirstName)
+                                  .ToList();
+
+            }
+
 
             ViewData["CategoryId"] = new SelectList(categories, "Id", "Name");
 
@@ -101,7 +114,7 @@ namespace ContactPro.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address1,Address2,City,States,ZipCode,Email,PhoneNumber,ImageFile")] Contact contact, List<int>CategoryList)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address1,Address2,City,States,ZipCode,Email,PhoneNumber,ImageFile")] Contact contact, List<int> CategoryList)
         {
             ModelState.Remove("AppUserId");
 
@@ -132,7 +145,7 @@ namespace ContactPro.Controllers
                 //save each selected category to the contactcategories table
 
                 return RedirectToAction(nameof(Index));
-            }   
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -224,14 +237,14 @@ namespace ContactPro.Controllers
             {
                 _context.Contacts.Remove(contact);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ContactExists(int id)
         {
-          return (_context.Contacts?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Contacts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
