@@ -73,7 +73,7 @@ namespace ContactPro.Controllers
             }
 
 
-            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", categoryId);
 
             return View(contacts);
         }
