@@ -2,6 +2,8 @@ using ContactPro.Data;
 using ContactPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ContactPro.Services;
+using ContactPro.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -17,6 +19,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+//Custom Services
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IAddressBookService, AddressBookService>();
 
 var app = builder.Build();
 
