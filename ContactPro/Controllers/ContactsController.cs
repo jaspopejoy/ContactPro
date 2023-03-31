@@ -64,7 +64,7 @@ namespace ContactPro.Controllers
             }
             else
             {
-                contacts = appUser.Categories.FirstOrDefault(c => c.Id == categoryId);
+                contacts = appUser.Categories.FirstOrDefault(c => c.Id == categoryId)
                                   .Contacts
                                   .OrderBy(contacts=> contacts.LastName)
                                   .ThenBy(c => c.FirstName)
