@@ -18,7 +18,7 @@ namespace ContactPro.Services.Interfaces
         Task<ICollection<int>> GetContactCategoryIdsAsync(int contactId);
 
         //give the categories for the id
-        Task<ICollection<Categories>> GetContactCateforiesAsync(int contactId);
+        Task<ICollection<Categories>> GetContactCategoriesAsync(int contactId);
 
         //remove a contact from a category
         Task RemoveContactFromCategoryAsync(int categoryId, int contactId);
