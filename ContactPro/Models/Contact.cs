@@ -37,7 +37,7 @@ namespace ContactPro.Models
         public string? City { get; set; }
 
         [Required]
-        public States States { get; set; }
+        public States State { get; set; }
 
         [Required]
         [Display(Name ="Zip Code")]
