@@ -12,13 +12,13 @@ namespace ContactPro.Services.Interfaces
 
        //get the user categories async
        //try to list the categories
-        Task<IEnumerable<Categories>> GetUserCategoriesAsync(string userId);
+        Task<IEnumerable<Category>> GetUserCategoriesAsync(string userId);
 
         //get the contact category id
         Task<ICollection<int>> GetContactCategoryIdsAsync(int contactId);
 
         //give the categories for the id
-        Task<ICollection<Categories>> GetContactCategoriesAsync(int contactId);
+        Task<ICollection<Category>> GetContactCategoriesAsync(int contactId);
 
         //remove a contact from a category
         Task RemoveContactFromCategoryAsync(int categoryId, int contactId);

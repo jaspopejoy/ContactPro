@@ -26,6 +26,6 @@ namespace ContactPro.Models
         public virtual ICollection<Contact> Contacts { get; set; } = new HashSet<Contact>();
 
         //allows a user to include its related contacts
-        public virtual ICollection<Categories> Categories { get; set; } = new HashSet<Categories>();
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
     }
 }
