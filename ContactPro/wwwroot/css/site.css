@@ -1,8 +1,8 @@
 :root {
     --cf-primaryColor: #0869b8;
     --cf-primaryColorDark: #002a4e;
-    --cf-primaryColorLight: #edf5fc;
-    --cf-secondaryColor: #fff0d9;
+    --cf-primaryColorLight: #D4D9ED;
+    --cf-secondaryColor: #d9d9d9;
     --cf-secondaryColorLight: #FFF8EC;
     --cf-dark-color: #131313;
     --cf-light-gray: #d9d9d9;
@@ -206,3 +206,51 @@ main {
         font-size: 3.5rem;
     }
 }
+
+/*Error Page*/
+.mainbox {
+    margin: auto;
+    height: 600px;
+    width: 600px;
+    position: relative;
+}
+
+.err {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position: absolute;
+    left: 20%;
+    top: 8%;
+}
+
+.far {
+    position: absolute;
+    font-size: 8.5rem;
+    left: 42%;
+    top:17%;
+    color: #ffffff;
+}
+
+.err2 {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position: absolute;
+    left: 68%;
+    top: 8%;
+}
+
+.msg {
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.6rem;
+    position: absolute;
+    left: 16%;
+    top: 45%;
+    width: 75%;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }

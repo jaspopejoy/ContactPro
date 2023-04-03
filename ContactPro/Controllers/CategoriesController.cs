@@ -49,15 +49,15 @@ namespace ContactPro.Controllers
         {
             string appUserId = _userManager.GetUserId(User);
             Category category = await _context.Categories
-                                      .Include(c=> c.Contacts)
-                                      .FirstOrDefaultAsync(c=> c.Id == id && c.AppUserId == appUserId);
+                                      .Include(c => c.Contacts)
+                                      .FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUserId);
 
-            List<string> emails = category.Contacts.Select(c=> c.Email).ToList();
+            List<string> emails = category.Contacts.Select(c => c.Email).ToList();
 
             EmailData emailData = new EmailData()
             {
                 GroupName = category.Name,
-                EmailAddress = string.Join(",", emails),
+                EmailAddress = string.Join(";", emails),
                 Subject = $"Group Message: {category.Name}"
             };
 
@@ -79,35 +79,15 @@ namespace ContactPro.Controllers
                 try
                 {
                     await _emailService.SendEmailAsync(ecvm.EmailData.EmailAddress, ecvm.EmailData.Subject, ecvm.EmailData.Body);
-                    return RedirectToAction("Index", "Categories", new {swalMessage = "Success Email Sent!" });
+                    return RedirectToAction("Index", "Categories", new { swalMessage = "Success Email Sent!" });
                 }
                 catch
                 {
-                    return RedirectToAction("Index", "Categories", new {swalMessage = "Error: Email Send Failed!" });
+                    return RedirectToAction("Index", "Categories", new { swalMessage = "Error: Email Send Failed!" });
                     throw;
                 }
             }
             return View(ecvm);
-        }
-
-        // GET: Categories/Details/5
-        [Authorize]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories
-                .Include(c => c.AppUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
         }
 
         // GET: Categories/Create
@@ -198,9 +178,10 @@ namespace ContactPro.Controllers
                 return NotFound();
             }
 
+            string appUserId = _userManager.GetUserId(User);
+
             var category = await _context.Categories
-                .Include(c => c.AppUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                                         .FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUserId);
             if (category == null)
             {
                 return NotFound();
@@ -214,23 +195,23 @@ namespace ContactPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
-            }
-            var category = await _context.Categories.FindAsync(id);
+
+            string appUserId = _userManager.GetUserId(User);
+
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUserId);
+
             if (category != null)
             {
                 _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
