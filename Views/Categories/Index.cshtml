@@ -4,9 +4,10 @@
     ViewData["Title"] = "Index";
 }
 <div class="row mt-5">
-    <div class="col-12 text-end mb-2"
-    <a class="btn btn-primary rounded-pill" asp-action="Create">Create New</a>
+    <div class="col-12 text-end mb-2">
+        <a class="btn btn-primary rounded-pill" asp-action="Create">Create New</a>
     </div>
+
 </div>
 <div class="row">
     <div class="col12">
@@ -15,7 +16,7 @@
                 <tr>
                     <th colspan="2">
                         @Html.DisplayNameFor(model => model.Name)
-                    </th>                    
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +27,7 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td class="d-flex justify-content-end">
-                            <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@item.Id" ><i class="bi bi-pencil-fill"></i></a>
+                            <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i></a>
                             <a class="me-3 editIcons" asp-action="EmailCategory" asp-route-id="@item.Id"><i class="bi bi-envelope-fill"></i></a>
                             <a class="editIcons text-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash-fill "></i></a>
                         </td>
