@@ -1,17 +1,17 @@
 ﻿using ContactPro.Data;
 using Microsoft.EntityFrameworkCore;
 
-public static class DataHelper
+namespace ContactPro.Helpers
 {
-
-    public static async Task ManageDataAsync(IServiceProvider svcProvider)
+    public static class DataHelper
     {
-        //Service: An instance of db context
-        var dbContextSvc = svcProvider.GetRequiredService<ApplicationDbContext>();
-
-        //Migration: This is the programmatic equivalent to Update-Database
-        await dbContextSvc.Database.MigrateAsync();
+        public static async Task ManageDataAsync(IServiceProvider svcProvider)
+        {
+            //get an instance of the db application context
+            var dbContextSvc = svcProvider.GetRequiredService<ApplicationDbContext>();
+            
+            //migration: this is equivalent to update-database
+            await dbContextSvc.Database.MigrateAsync();
+        }
     }
-
-
 }
