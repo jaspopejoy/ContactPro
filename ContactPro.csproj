@@ -7,6 +7,7 @@
     <UserSecretsId>aspnet-ContactPro-f2d51429-5028-42b2-9583-a103d1da3bf1</UserSecretsId>
     <InvariantGlobalization>true</InvariantGlobalization>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>

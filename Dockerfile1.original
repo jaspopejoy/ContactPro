@@ -10,10 +10,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["ContactPro.csproj", "."]
-RUN dotnet restore "./ContactPro.csproj"
+COPY ["ContactPro/ContactPro.csproj", "ContactPro/"]
+RUN dotnet restore "ContactPro/ContactPro.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/ContactPro"
 RUN dotnet build "ContactPro.csproj" -c Release -o /app/build
 
 FROM build AS publish
