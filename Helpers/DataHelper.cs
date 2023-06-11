@@ -35,7 +35,7 @@ namespace ContactPro.Helpers
                     LastName = "User",
                     EmailConfirmed = true
                 };
-                await userManager.CreateAsync(demoUser, config.GetSection("demoPassword")["Password"] ?? Environment.GetEnvironmentVariable("demoPassword"));
+                await userManager.CreateAsync(demoUser, config.GetSection("demoPassword")["demoPassword"] ?? Environment.GetEnvironmentVariable("demoPassword"));
             }
         }
     }
