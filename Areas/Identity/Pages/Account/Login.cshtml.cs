@@ -24,10 +24,11 @@ namespace ContactPro.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly IConfiguration _configuration;
 
-        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger, IConfiguration configuration)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _configuration = configuration;
         }
 
         /// <summary>
