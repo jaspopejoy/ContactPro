@@ -22,6 +22,7 @@ namespace ContactPro.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IConfiguration _configuration;
 
         public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger)
         {
@@ -102,9 +103,17 @@ namespace ContactPro.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string demoLogin, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            var pass = _configuration.GetRequiredSection("demoPassword")["Password"] ?? Environment.GetEnvironmentVariable("demoPassword");
+            var demo = await _signInManager.PasswordSignInAsync("email@email.com", pass, false, lockoutOnFailure: false);
+            if (demo.Succeeded && !string.IsNullOrEmpty(demoLogin))
+            {
+                _logger.LogInformation("User is logged in");
+                return LocalRedirect(returnUrl);
+            }
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
